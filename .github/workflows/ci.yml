@@ -30,22 +30,25 @@ jobs:
             dep ensure
         fi
 
-    - name: Install additional CI for nektos/act
-      run: |
-            apt update
-            apt install -y make gcc libc-dev git
-      if: github.actor == 'nektos/act'
+    # - name: Install additional CI for nektos/act
+    #   run: |
+    #         apt update
+    #         apt install -y make gcc libc-dev git
+    #   if: github.actor == 'nektos/act'
 
-    - name: Lint
-      run: |
-        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.30.0
-        make lint
+    # - name: Lint
+    #   run: |
+    #     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.30.0
+    #     make lint
   
     - name: Test
       run: make test
 
-    - name: Send coverage
-      uses: shogo82148/actions-goveralls@v1
-      with:
-        path-to-profile: profile.cov
-      if: github.actor != 'nektos/act'
+    - name: Build Push
+      run: make build.push/multiarch
+
+    # - name: Send coverage
+    #   uses: shogo82148/actions-goveralls@v1
+    #   with:
+    #     path-to-profile: profile.cov
+    #   if: github.actor != 'nektos/act'
