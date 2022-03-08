@@ -174,11 +174,16 @@ type AWSConfig struct {
 	PreferCNAME          bool
 	DryRun               bool
 	ZoneCacheDuration    time.Duration
+	Debug                bool
 }
 
 // NewAWSProvider initializes a new AWS Route53 based Provider.
 func NewAWSProvider(awsConfig AWSConfig) (*AWSProvider, error) {
 	config := aws.NewConfig().WithMaxRetries(awsConfig.APIRetries)
+
+	if awsConfig.Debug {
+		config.WithLogLevel(aws.LogDebug)
+	}
 
 	config.WithHTTPClient(
 		instrumented_http.NewClient(config.HTTPClient, &instrumented_http.Callbacks{

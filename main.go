@@ -198,6 +198,7 @@ func main() {
 				PreferCNAME:          cfg.AWSPreferCNAME,
 				DryRun:               cfg.DryRun,
 				ZoneCacheDuration:    cfg.AWSZoneCacheDuration,
+				Debug:                cfg.LogLevel == "debug",
 			},
 		)
 	case "aws-sd":
