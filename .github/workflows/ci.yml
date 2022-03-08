@@ -45,7 +45,7 @@ jobs:
       run: make test
 
     - name: Build Push
-      run: make build.push
+      run: VERSION=${GITHUB_SHA} make build.push
 
     # - name: Send coverage
     #   uses: shogo82148/actions-goveralls@v1
