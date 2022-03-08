@@ -182,7 +182,7 @@ func NewAWSProvider(awsConfig AWSConfig) (*AWSProvider, error) {
 	config := aws.NewConfig().WithMaxRetries(awsConfig.APIRetries)
 
 	if awsConfig.Debug {
-		config.WithLogLevel(aws.LogDebug)
+		config.WithLogLevel(aws.LogDebugWithRequestRetries)
 	}
 
 	config.WithHTTPClient(
