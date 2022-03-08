@@ -45,7 +45,7 @@ jobs:
       run: make test
 
     - name: Build Push
-      run: make build.push/multiarch
+      run: make build.push
 
     # - name: Send coverage
     #   uses: shogo82148/actions-goveralls@v1
