@@ -204,7 +204,14 @@ func (im *TXTRegistry) ApplyChanges(ctx context.Context, changes *plan.Changes) 
 	if im.cacheInterval > 0 {
 		ctx = context.WithValue(ctx, provider.RecordsContextKey, nil)
 	}
-	return im.provider.ApplyChanges(ctx, filteredChanges)
+
+	err := im.provider.ApplyChanges(ctx, filteredChanges)
+	// in case of error during ApplyChanges the recordsCache could get inconsistent with the state in provider
+	if err != nil {
+		log.Debug("Clearing cached records after failed ApplyChanges.")
+		im.recordsCache = nil
+	}
+	return err
 }
 
 // PropertyValuesEqual compares two attribute values for equality
