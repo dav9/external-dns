@@ -142,8 +142,10 @@ func (im *TXTRegistry) Records(ctx context.Context) ([]*endpoint.Endpoint, error
 
 	if !im.run {
 		im.run = true
+		log.Debug("---FIRST RUN---")
 		return []*endpoint.Endpoint{}, nil
 	}
+	log.Debug("---CONSEQUENT RUN---")
 	return endpoints, nil
 }
 
