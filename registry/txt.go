@@ -81,6 +81,7 @@ func (im *TXTRegistry) Records(ctx context.Context) ([]*endpoint.Endpoint, error
 	// last given interval, then just use the cached results.
 	if im.recordsCache != nil && time.Since(im.recordsCacheRefreshTime) < im.cacheInterval {
 		log.Debug("Using cached records.")
+		log.Debugf("using cache records: %v", im.recordsCache)
 		return im.recordsCache, nil
 	}
 
@@ -214,7 +215,9 @@ func (im *TXTRegistry) ApplyChanges(ctx context.Context, changes *plan.Changes) 
 	// in case of error during ApplyChanges the recordsCache could get inconsistent with the state in provider
 	if err != nil {
 		log.Debug("Clearing cached records after failed ApplyChanges.")
+		log.Debugf("cache before invalidation:  %v", im.recordsCache)
 		im.recordsCache = nil
+		log.Debugf("cache after invalidation: %v", im.recordsCache)
 	}
 	return err
 }
