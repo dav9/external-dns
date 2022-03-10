@@ -45,6 +45,7 @@ type TXTRegistry struct {
 	// registry TXT records corresponding to wildcard records will be invalid (and rejected by most providers), due to
 	// having a '*' appear (not as the first character) - see https://tools.ietf.org/html/rfc1034#section-4.3.3
 	wildcardReplacement string
+	run                 bool
 }
 
 // NewTXTRegistry returns new TXTRegistry object
@@ -137,6 +138,10 @@ func (im *TXTRegistry) Records(ctx context.Context) ([]*endpoint.Endpoint, error
 		im.recordsCacheRefreshTime = time.Now()
 	}
 
+	if !im.run {
+		im.run = true
+		return []*endpoint.Endpoint{}, nil
+	}
 	return endpoints, nil
 }
 
