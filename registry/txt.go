@@ -137,6 +137,7 @@ func (im *TXTRegistry) Records(ctx context.Context) ([]*endpoint.Endpoint, error
 	if im.cacheInterval > 0 {
 		im.recordsCache = endpoints
 		im.recordsCacheRefreshTime = time.Now()
+		log.Debugf("setting cache records: %v", im.recordsCache)
 	}
 
 	if !im.run {
