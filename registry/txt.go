@@ -135,17 +135,16 @@ func (im *TXTRegistry) Records(ctx context.Context) ([]*endpoint.Endpoint, error
 
 	// Update the cache.
 	if im.cacheInterval > 0 {
-		im.recordsCache = endpoints
-		im.recordsCacheRefreshTime = time.Now()
-		log.Debugf("setting cache records: %v", im.recordsCache)
+		if !im.run {
+			log.Debug("---SKIPPING CACHE RUN---")
+			im.run = true
+		} else {
+			im.recordsCache = endpoints
+			im.recordsCacheRefreshTime = time.Now()
+			log.Debugf("setting cache records: %v", im.recordsCache)
+		}
 	}
 
-	if !im.run {
-		im.run = true
-		log.Debug("---FIRST RUN---")
-		return []*endpoint.Endpoint{}, nil
-	}
-	log.Debug("---CONSEQUENT RUN---")
 	return endpoints, nil
 }
 
