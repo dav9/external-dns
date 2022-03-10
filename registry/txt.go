@@ -138,6 +138,7 @@ func (im *TXTRegistry) Records(ctx context.Context) ([]*endpoint.Endpoint, error
 		if !im.run {
 			log.Debug("---SKIPPING CACHE RUN---")
 			im.run = true
+			return []*endpoint.Endpoint{}, nil
 		} else {
 			im.recordsCache = endpoints
 			im.recordsCacheRefreshTime = time.Now()
@@ -145,6 +146,7 @@ func (im *TXTRegistry) Records(ctx context.Context) ([]*endpoint.Endpoint, error
 		}
 	}
 
+	log.Debug("---CONSEQUENT RUN---")
 	return endpoints, nil
 }
 
